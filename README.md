@@ -13,9 +13,9 @@ The unsealer container clearly violates Goldfish's security practice, but that i
     vault operator unseal
     vault login
 ```
-    **NOTES:**
-    * Modify accordingly for number of desired keys.
-    * Only 1 key needed to unseal; vault is useless if seal is intact.
+    > **NOTES:**
+    > Modify accordingly for number of desired keys.
+    > Only 1 key needed to unseal; vault is useless if seal is intact.
 ### Goldfish Init (if using approle):
     * vault auth enable approle
     * wget https://raw.githubusercontent.com/Caiyeon/goldfish/master/vagrant/policies/goldfish.hcl -P /tmp
