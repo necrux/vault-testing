@@ -1,4 +1,4 @@
-#Testing for Hashicorp Vault + Goldfish
+# Testing for Hashicorp Vault + Goldfish
 
 Below are my personal notes for getting Vault + Goldfish up and running. The docker-compose file is made up of 3 containers:
     * vault (vault server)
@@ -7,14 +7,14 @@ Below are my personal notes for getting Vault + Goldfish up and running. The doc
 
 The unsealer container clearly violates Goldfish's security practice, but that is inconsequential for dev/testing.
 
-###Vault Init:
+### Vault Init:
     * `vault operator init -key-shares=1 -key-threshold=1`
         - Modify accordingly for number of desired keys.
     * `vault operator unseal`
         - Only 1 key needed to unseal; vault is useless if seal is intact.
     * `vault login`
 
-###Goldfish Init (if using approle):
+### Goldfish Init (if using approle):
     * `vault auth enable approle`
     * `wget https://raw.githubusercontent.com/Caiyeon/goldfish/master/vagrant/policies/goldfish.hcl -P /tmp`
     * `vault policy write goldfish /tmp/goldfish.hcl`
@@ -22,17 +22,17 @@ The unsealer container clearly violates Goldfish's security practice, but that i
     * `vault write auth/approle/role/goldfish/role-id role_id=goldfish`
     * `vault write secret/goldfish DefaultSecretPath="secret/" UserTransitKey="usertransit" BulletinPath="secret/bulletins/"`
 
-###Goldfish Init (w/o approle, i.e. permenant secret-id):
+### Goldfish Init (w/o approle, i.e. permenant secret-id):
     * Not working with the Nomad secret-id as expected.
 
-###Github Auth Integration
+### Github Auth Integration
     * `vault auth enable -path=github github`
     * `vault write auth/github/config organization=${my-org}`
         - Set ${my-org}.
     * `vault write auth/github/map/teams/${slugified-team-name} value=${policy}`
         - Set ${slugified-team-name} and ${policy}
 
-###Notes:
+### Notes:
     * If you wish to use the unsealer container the following must be done:
         - Build the vault and configure the approle for Goldfish (steps above).
         - `cp .env.example .env`
@@ -46,7 +46,7 @@ The unsealer container clearly violates Goldfish's security practice, but that i
     * Forcing TLS connection w/ a self-signed cert.
         - Command to generate self-signed cert for testing:
             * `openssl req -x509 -newkey rsa:4096 -days 365 -nodes -keyout config/cert.key -out config/cert.pem`
-        - Skipping cert verification in docker-compose.yml: VAULT_SKIP_VERIFY=true 
+        - Skipping cert verification in docker-compose.yml: VAULT_SKIP_VERIFY=true
         - Skipping cert verification in goldfish.hcl: tls_skip_verify = 1
     * To login with Github you must create a personal Github token with the `read:org` scope (Vault does not support OAuth)
         - https://www.vaultproject.io/docs/auth/github.html
