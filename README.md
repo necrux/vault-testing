@@ -16,7 +16,7 @@ The unsealer container clearly violates Goldfish's security practice, but that i
 ###### NOTES:
     * Modify accordingly for number of desired keys.
     * Only 1 key needed to unseal; vault is useless if seal is intact.
----
+
 ### Goldfish Init (if using approle):
 ```
     vault auth enable approle
@@ -26,10 +26,10 @@ The unsealer container clearly violates Goldfish's security practice, but that i
     vault write auth/approle/role/goldfish/role-id role_id=goldfish
     vault write secret/goldfish DefaultSecretPath="secret/" UserTransitKey="usertransit" BulletinPath="secret/bulletins/"
 ```
----
+
 ### Goldfish Init (w/o approle, i.e. permenant secret-id):
     * Not working with the Nomad secret-id as expected.
----
+
 ### Github Auth Integration
 ```
     vault auth enable -path=github github
@@ -38,9 +38,9 @@ The unsealer container clearly violates Goldfish's security practice, but that i
 ```
 ###### NOTES:
     * Modify variables accordingly:
-        * ${my-org}
-        * ${slugified-team-name}
-        * ${policy}
+        - ${my-org}
+        - ${slugified-team-name}
+        - ${policy}
 ---
 ### Notes:
     * If you wish to use the unsealer container the following must be done:
