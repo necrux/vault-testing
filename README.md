@@ -8,12 +8,14 @@ Below are my personal notes for getting Vault + Goldfish up and running. The doc
 The unsealer container clearly violates Goldfish's security practice, but that is inconsequential for dev/testing.
 
 ### Vault Init:
-    * vault operator init -key-shares=1 -key-threshold=1
-        - Modify accordingly for number of desired keys.
-    * vault operator unseal
-        - Only 1 key needed to unseal; vault is useless if seal is intact.
-    * vault login
-
+```
+    vault operator init -key-shares=1 -key-threshold=1
+    vault operator unseal
+    vault login
+```
+    **NOTES:**
+    * Modify accordingly for number of desired keys.
+    * Only 1 key needed to unseal; vault is useless if seal is intact.
 ### Goldfish Init (if using approle):
     * vault auth enable approle
     * wget https://raw.githubusercontent.com/Caiyeon/goldfish/master/vagrant/policies/goldfish.hcl -P /tmp
