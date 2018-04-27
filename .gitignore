@@ -5,4 +5,4 @@ test_functions.sh
 *.token
 *.key
 *.pem
-vault_data/^[a-Z]
+vault_data/*
