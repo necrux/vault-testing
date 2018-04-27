@@ -13,7 +13,7 @@ The unsealer container clearly violates Goldfish's security practice, but that i
     vault operator unseal
     vault login
 ```
-**NOTES:**
+**NOTES:**<br>
     * Modify accordingly for number of desired keys.
     * Only 1 key needed to unseal; vault is useless if seal is intact.
 ---
@@ -36,7 +36,7 @@ The unsealer container clearly violates Goldfish's security practice, but that i
     vault write auth/github/config organization=${my-org}
     vault write auth/github/map/teams/${slugified-team-name} value=${policy}
 ```
-**NOTES:**
+**NOTES:**<br>
     * Modify variables accordingly:
         * ${my-org}
         * ${slugified-team-name}
@@ -59,7 +59,7 @@ The unsealer container clearly violates Goldfish's security practice, but that i
         - Skipping cert verification in docker-compose.yml: VAULT_SKIP_VERIFY=true
         - Skipping cert verification in goldfish.hcl: tls_skip_verify = 1
     * To login with Github you must create a personal Github token with the read:org scope (Vault does not support OAuth)
-        - [https://www.vaultproject.io/docs/auth/github.html](Github Auth)
+        - (https://www.vaultproject.io/docs/auth/github.html)
     * The policies dir contains default policies provided by Hashicorp and Caiyeon:
-        - [https://www.vaultproject.io/guides/identity/policies.html](Hoshicorp Policies)
-        - [https://github.com/Caiyeon/goldfish/blob/master/vagrant/policies/goldfish.hcl](Goldfish Policy)
+        - (https://www.vaultproject.io/guides/identity/policies.html)
+        - (https://github.com/Caiyeon/goldfish/blob/master/vagrant/policies/goldfish.hcl)
