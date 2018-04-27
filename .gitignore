@@ -1,0 +1,8 @@
+test_functions.sh
+
+# Ignore Sensitive Data
+.env
+*.token
+*.key
+*.pem
+vault_data/^[a-Z]

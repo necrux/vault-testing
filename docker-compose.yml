@@ -1,0 +1,58 @@
+version: '2'
+services:
+    vault.example.com:
+        image: vault
+        container_name: vault
+        environment:
+          - VAULT_ADDR=https://vault.trueability.com:8200
+          - VAULT_SKIP_VERIFY=true
+        ports:
+          - "0.0.0.0:8200:8200"
+        volumes:
+          - ./vault_data:/vault/vault_data:rw
+          - ./config:/vault/config:rw
+        cap_add:
+          - IPC_LOCK
+        entrypoint: vault server -config=/vault/config/vault.json 
+    unsealer:
+        build:
+            context: .
+        image: alpine
+        container_name: vault_unsealer
+        depends_on:
+          - vault.example.com
+        env_file:
+          - .env
+        volumes:
+          - ./config:/vault/config:rw
+        command: |
+            /bin/ash -c '
+                curl \
+                    --insecure \
+                    --silent \
+                    --header "Content-Type:application/json" \
+                    --data "{\"key\":\"$${VAULT_KEY}\"}" \
+                    --request PUT https://vault.example.com:8200/v1/sys/unseal
+                curl \
+                    --insecure \
+                    --silent \
+                    --header "Content-Type:application/json" \
+                    --header "X-Vault-Token:$${VAULT_TOKEN}" \
+                    --header "X-Vault-Wrap-TTL:20s" \
+                    --request PUT https://vault.example.com:8200/v1/auth/approle/role/goldfish/secret-id \
+                    | jq --raw-output .wrap_info.token \
+                    > /vault/config/goldfish.token
+                '
+    goldfish:
+        image: caiyeon/goldfish:0.9.0
+        container_name: vault_ui
+        depends_on:
+          - unsealer
+        ports: 
+          - "0.0.0.0:8000:8000"
+        volumes:
+          - ./config:/app/cert:ro
+          - ./goldfish_config.hcl:/app/config.hcl:ro
+        entrypoint: /bin/ash -c '/app/goldfish -config=/app/config.hcl -token=$$(cat /app/cert/goldfish.token)'
+        #entrypoint: /bin/ash -c '/app/goldfish -config=/app/config.hcl
+        #entrypoint: /app/goldfish -dev 
