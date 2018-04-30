@@ -42,7 +42,7 @@ The unsealer container clearly violates Goldfish's security practice, but that i
         - ${slugified-team-name}
         - ${policy}
 ---
-### Considerations:
+### Further Considerations:
     * The host is set to 'vault.example.com' is multiple files; this will need to be changed to fit your needs. You do not need to add 'extra_hosts' to docker-compose.yml if you are consistent with the container names.
     * If you wish to use the unsealer container the following must be done:
         - Build the vault and configure the approle for Goldfish (steps above).
