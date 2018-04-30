@@ -4,8 +4,12 @@ services:
         image: vault
         container_name: vault
         environment:
-          - VAULT_ADDR=https://vault.trueability.com:8200
+          #- VAULT_ADDR=https://vault.example.com:8200/
+          - VAULT_TLS_SERVER_NAME=vault.example.com
+          #- VAULT_CLIENT_CERT=/vault/config/cert.pem
+          #- VAULT_CLIENT_KEY=/vault/config/cert.key
           - VAULT_SKIP_VERIFY=true
+          - VAULT_LOCAL_CONFIG={"backend":{"file":{"path":"/vault/vault_data"}},"listener":{"tcp":{"address":"0.0.0.0:8200","tls_disable":0,"tls_cert_file":"/vault/config/cert.pem","tls_key_file":"/vault/config/cert.key"}},"default_lease_ttl":"168h","max_lease_ttl":"0h"}
         ports:
           - "0.0.0.0:8200:8200"
         volumes:
@@ -13,7 +17,7 @@ services:
           - ./config:/vault/config:rw
         cap_add:
           - IPC_LOCK
-        entrypoint: vault server -config=/vault/config/vault.json 
+        command: server
     unsealer:
         build:
             context: .
