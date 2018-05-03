@@ -15,7 +15,8 @@ The unsealer container clearly violates Goldfish's security practice, but that i
 ```
 ###### NOTES:
     * Modify accordingly for number of desired keys.
-    * Only 1 key needed to unseal; vault is useless if seal is intact.
+    * Only 1 key needed to unseal unless the key-theshold is increased.
+    * Vault is useless if seal is intact.
 
 ### Goldfish Init (if using approle):
 ```
