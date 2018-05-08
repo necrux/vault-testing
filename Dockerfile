@@ -1,5 +1,5 @@
 FROM alpine
 
-RUN apk update
-RUN apk add curl
-RUN apk add jq
+RUN apk update \
+    apk add curl \
+    apk add jq
