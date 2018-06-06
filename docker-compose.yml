@@ -10,6 +10,7 @@ services:
           #- VAULT_CLIENT_KEY=/vault/config/cert.key
           - VAULT_SKIP_VERIFY=true
           - VAULT_LOCAL_CONFIG={"backend":{"file":{"path":"/vault/vault_data"}},"listener":{"tcp":{"address":"0.0.0.0:8200","tls_disable":0,"tls_cert_file":"/vault/config/cert.pem","tls_key_file":"/vault/config/cert.key"}},"default_lease_ttl":"168h","max_lease_ttl":"0h"}
+          #- VAULT_UI=true
         ports:
           - "0.0.0.0:8200:8200"
         volumes:

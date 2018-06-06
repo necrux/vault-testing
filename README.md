@@ -65,3 +65,7 @@ The unsealer container clearly violates Goldfish's security practice, but that i
     * The policies dir contains default policies provided by Hashicorp and Caiyeon:
         - https://www.vaultproject.io/guides/identity/policies.html
         - https://github.com/Caiyeon/goldfish/blob/master/vagrant/policies/goldfish.hcl
+
+# Testing for Hashicorp Vault + Vault UI
+
+Vault UI is no longer an enterprise exclusive feature as of [Vault 0.10](https://www.hashicorp.com/resources/vault-oss-ui-introduction). Using Vault UI removes the need for everything except the primary Vault container. To activate Vault UI, simple uncomment `VAULT_UI=true` in `docker-compose.yml`.
